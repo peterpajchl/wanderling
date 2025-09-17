@@ -12,9 +12,40 @@ class WanderlingApp extends LitElement {
   }
 
   render() {
+    const countryObj = {
+      name: "Czechia",
+      countryCode: "cz",
+      capital: "Prague",
+    };
     return html`
-      <h1>Welcome to Wanderling</h1>
-      <p>Your adventure starts here!</p>
+      <h1>Wanderling</h1>
+      <country-view .countryObj=${countryObj} />
+    `;
+  }
+}
+
+class Country extends LitElement {
+  static properties = {
+    countryObj: { type: Object },
+  };
+
+  createRenderRoot() {
+    return this;
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
+  }
+
+  render() {
+    return html`
+      <div>${this.countryObj.name} <audio-player /></div>
+      <div>
+        <img
+          src="/static/flags/w320-webp/${this.countryObj.countryCode}.webp"
+        />
+      </div>
+      <div>${this.countryObj.capital} <audio-player /></div>
     `;
   }
 }
@@ -34,6 +65,15 @@ class AudioPlayer extends LitElement {
   }
 
   togglePlay() {
+    const audioElm = this.querySelector("audio");
+    if (audioElm) {
+      if (this.isPlaying) {
+        audioElm.pause();
+        audioElm.currentTime = 0;
+      } else {
+        audioElm.play();
+      }
+    }
     this.isPlaying = !this.isPlaying;
   }
 
@@ -44,7 +84,7 @@ class AudioPlayer extends LitElement {
         @ended=${() => (this.isPlaying = false)}
       >
         <source .src=${this.src} type="audio/mpeg" />
-        Your browser does not support the audio element.
+        <p>Your browser does not support the audio element.</p>
       </audio>
       <button @click=${this.togglePlay}>
         ${this.isPlaying ? "Pause" : "Play"}
@@ -54,4 +94,5 @@ class AudioPlayer extends LitElement {
 }
 
 customElements.define("audio-player", AudioPlayer);
+customElements.define("country-view", Country);
 customElements.define("wanderling-app", WanderlingApp);
