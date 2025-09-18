@@ -5,11 +5,26 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>Wanderling</title>
         <link rel="stylesheet" href="/static/css/bootstrap.min.css" />
-        <link rel="stylesheet" href="/static/css/styles.css" />
+        <link rel="stylesheet" href="/static/css/style.css" />
     </head>
     <body>
+        <div style="text-align: center">
+            <img
+                width="300px"
+                src="/static/assets/wanderling-hero.png"
+                alt="Wanderling Hero"
+            />
+        </div>
+        <div style="text-align: center">
+            <img
+                width="200px"
+                src="/static/assets/wanderling-balloon.png"
+                alt="Wanderling Balloon"
+            />
+        </div>
         <div id="app">
             <wanderling-app></wanderling-app>
+            <country-list></country-list>
         </div>
         <script type="module" src="/src/main.js"></script>
     </body>
