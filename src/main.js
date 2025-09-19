@@ -53,6 +53,29 @@ class Country extends LitElement {
   }
 }
 
+class Pager extends LitElement {
+  static properties = {
+    currentPage: { type: Number },
+    totalPages: { type: Number },
+  };
+
+  createRenderRoot() {
+    return this; // Disable shadow DOM
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
+  }
+
+  render() {
+    return html`
+      <button>Prev</button>
+      <span>1 / 197</span>
+      <button>Next</button>
+    `;
+  }
+}
+
 class CountryList extends LitElement {
   static properties = {
     data: { type: Array },
@@ -75,23 +98,26 @@ class CountryList extends LitElement {
   }
 
   render() {
-    console.log(this.data);
     return html`
-      <ul>
+      <ul class="list-unstyled col-2">
         ${this.data.map(
           (item) => html`
-            <li>
-              <div>${item.country}</div>
-              <div>${item.capital}</div>
-              <div>
+            <li class="mb-3">
+              <div class="card">
                 <img
+                  class="card-img-top"
                   src="/static/flags/w320-webp/${item.country_code.toLowerCase()}.webp"
                 />
+                <div class="card-body">
+                  <h5 class="card-title">${item.country}</h5>
+                  <p>Capital: ${item.capital}</p>
+                </div>
               </div>
             </li>
           `,
         )}
       </ul>
+      <pager-element />
     `;
   }
 }
@@ -103,7 +129,7 @@ class AudioPlayer extends LitElement {
   };
 
   createRenderRoot() {
-    return this; // Disable shadow DOM
+    return this;
   }
 
   connectedCallback() {
@@ -139,6 +165,7 @@ class AudioPlayer extends LitElement {
   }
 }
 
+customElements.define("pager-element", Pager);
 customElements.define("country-list", CountryList);
 customElements.define("audio-player", AudioPlayer);
 customElements.define("country-view", Country);
