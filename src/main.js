@@ -1,17 +1,10 @@
 console.log("Wonderling is running...");
 
 import { LitElement, html } from "lit";
-
-async function fetchCountries() {
-  try {
-    let res = await fetch("http://localhost:4123/api/countries?page=0");
-    let data = await res.json();
-    console.log("Data", data);
-    return data;
-  } catch (e) {
-    console.log("Error with request", e);
-  }
-}
+import Pager from "./components/pagination.js";
+import CountryList from "./components/country-list.js";
+import Country from "./components/country.js";
+import CountrySearch from "./components/country-search.js";
 
 class WanderlingApp extends LitElement {
   createRenderRoot() {
@@ -24,101 +17,6 @@ class WanderlingApp extends LitElement {
 
   render() {
     return html`Learn 197 countries and its capital city...`;
-  }
-}
-
-class Country extends LitElement {
-  static properties = {
-    countryObj: { type: Object },
-  };
-
-  createRenderRoot() {
-    return this;
-  }
-
-  connectedCallback() {
-    super.connectedCallback();
-  }
-
-  render() {
-    return html`
-      <div>${this.countryObj.name} <audio-player /></div>
-      <div>
-        <img
-          src="/static/flags/w320-webp/${this.countryObj.countryCode}.webp"
-        />
-      </div>
-      <div>${this.countryObj.capital} <audio-player /></div>
-    `;
-  }
-}
-
-class Pager extends LitElement {
-  static properties = {
-    currentPage: { type: Number },
-    totalPages: { type: Number },
-  };
-
-  createRenderRoot() {
-    return this; // Disable shadow DOM
-  }
-
-  connectedCallback() {
-    super.connectedCallback();
-  }
-
-  render() {
-    return html`
-      <button>Prev</button>
-      <span>1 / 197</span>
-      <button>Next</button>
-    `;
-  }
-}
-
-class CountryList extends LitElement {
-  static properties = {
-    data: { type: Array },
-  };
-
-  constructor() {
-    super();
-    this.data = [];
-  }
-
-  createRenderRoot() {
-    return this;
-  }
-
-  connectedCallback() {
-    super.connectedCallback();
-    fetchCountries().then((d) => {
-      this.data = d;
-    });
-  }
-
-  render() {
-    return html`
-      <ul class="list-unstyled col-2">
-        ${this.data.map(
-          (item) => html`
-            <li class="mb-3">
-              <div class="card">
-                <img
-                  class="card-img-top"
-                  src="/static/flags/w320-webp/${item.country_code.toLowerCase()}.webp"
-                />
-                <div class="card-body">
-                  <h5 class="card-title">${item.country}</h5>
-                  <p>Capital: ${item.capital}</p>
-                </div>
-              </div>
-            </li>
-          `,
-        )}
-      </ul>
-      <pager-element />
-    `;
   }
 }
 
@@ -169,4 +67,5 @@ customElements.define("pager-element", Pager);
 customElements.define("country-list", CountryList);
 customElements.define("audio-player", AudioPlayer);
 customElements.define("country-view", Country);
+customElements.define("country-search", CountrySearch);
 customElements.define("wanderling-app", WanderlingApp);
