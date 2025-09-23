@@ -41,10 +41,20 @@ class CountryList extends LitElement {
     });
   };
 
+  searchCountries = (query) => {
+    fetchCountries({ country: query }).then((d) => {
+      let { data, pagination } = d;
+      this.pagination = pagination;
+      this.data = data;
+    });
+  };
+
   render() {
     return html`
-      <country-search></country-search>
-      <ul class="list-unstyled col-2">
+      <country-search
+        .delegateDidSearch=${this.searchCountries}
+      ></country-search>
+      <ul class="list-unstyled">
         ${this.data.map(
           (item) => html`
             <li class="mb-3">
@@ -54,8 +64,18 @@ class CountryList extends LitElement {
                   src="/static/flags/w320-webp/${item.country_code.toLowerCase()}.webp"
                 />
                 <div class="card-body">
-                  <h5 class="card-title">${item.country}</h5>
-                  <p class="mb-0">${item.capital}</p>
+                  <h5 class="card-title">
+                    <play-btn
+                      .src="/static/audio/${item.country_audio_filename}"
+                    />
+                    ${item.country}
+                  </h5>
+                  <p class="mb-0">
+                    <play-btn
+                      .src="/static/audio/${item.capital_audio_filename}"
+                    />
+                    ${item.capital}
+                  </p>
                 </div>
               </div>
             </li>

@@ -8,23 +8,25 @@
         <link rel="stylesheet" href="/static/css/style.css" />
     </head>
     <body>
-        <div style="text-align: center">
-            <img
-                width="300px"
-                src="/static/assets/wanderling-hero.png"
-                alt="Wanderling Hero"
-            />
-        </div>
-        <div style="text-align: center">
-            <img
-                width="200px"
-                src="/static/assets/wanderling-balloon.png"
-                alt="Wanderling Balloon"
-            />
-        </div>
-        <div id="app">
+        <div class="container">
+            <div style="text-align: center" class="mt-5">
+                <img
+                    width="300px"
+                    src="/static/assets/wanderling-hero.png"
+                    alt="Wanderling Hero"
+                />
+            </div>
+            <div style="text-align: center">
+                <img
+                    width="200px"
+                    src="/static/assets/wanderling-balloon.png"
+                    alt="Wanderling Balloon"
+                />
+            </div>
             <wanderling-app></wanderling-app>
-            <country-list></country-list>
+            <div class="row">
+                <country-list class="col-xs-8 col-lg-3"></country-list>
+            </div>
         </div>
         <script type="module" src="/src/main.js"></script>
     </body>
